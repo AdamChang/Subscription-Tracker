@@ -1,0 +1,44 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  subscription-api:
+    build:
+      context: .
+      dockerfile: src/SubscriptionTracker.Api/Dockerfile
+    depends_on: [redis]
+    ports: ["5000:5000"]
+
+  subscription-api-dapr:
+    image: daprio/daprd:latest
+    command: ["./daprd",
+      "-app-id", "subscription-api",
+      "-app-port", "5000",
+      "-resources-path", "/components",
+      "-config", "/config/config.yaml"]
+    volumes:
+      - "./dapr/components:/components"
+      - "./dapr/config.yaml:/config/config.yaml"
+    depends_on: [subscription-api, redis]
+    network_mode: "service:subscription-api"
+
+  notification-worker:
+    build:
+      context: .
+      dockerfile: src/SubscriptionTracker.Worker/Dockerfile
+    depends_on: [redis]
+    ports: ["5001:5001"]
+
+  notification-worker-dapr:
+    image: daprio/daprd:latest
+    command: ["./daprd",
+      "-app-id", "notification-worker",
+      "-app-port", "5001",
+      "-resources-path", "/components",
+      "-config", "/config/config.yaml"]
+    volumes:
+      - "./dapr/components:/components"
+      - "./dapr/config.yaml:/config/config.yaml"
+    depends_on: [notification-worker, redis]
+    network_mode: "service:notification-worker"

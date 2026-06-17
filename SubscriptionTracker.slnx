@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SubscriptionTracker.Api/SubscriptionTracker.Api.csproj" />
+    <Project Path="src/SubscriptionTracker.Contracts/SubscriptionTracker.Contracts.csproj" />
+    <Project Path="src/SubscriptionTracker.Worker/SubscriptionTracker.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SubscriptionTracker.Api.Tests/SubscriptionTracker.Api.Tests.csproj" />
+    <Project Path="tests/SubscriptionTracker.Worker.Tests/SubscriptionTracker.Worker.Tests.csproj" />
+  </Folder>
+</Solution>

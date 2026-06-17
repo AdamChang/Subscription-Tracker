@@ -1,0 +1,20 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: smtp
+spec:
+  type: bindings.smtp
+  version: v1
+  metadata:
+    - name: host
+      value: "smtp.gmail.com"
+    - name: port
+      value: "587"
+    - name: user
+      value: "your@gmail.com"
+    - name: password
+      value: "your-app-password"
+    - name: emailFrom
+      value: "your@gmail.com"
+scopes:
+  - notification-worker
